@@ -1,0 +1,7 @@
+common/
+.vscode/
+ACO.cbp
+ACO.layout
+ACO.depend
+bin/
+obj/
