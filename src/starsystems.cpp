@@ -51,6 +51,13 @@ void starsystems::genRandom(int t, int seed)
     itMod = 1;
     rollingOrigin = 0;
 
+    forgetOffset = 93;
+    forgetLength = 5;
+
+    myBonus = false;
+    rollOrigins = false;
+    alwaysExploit = true;
+
     bounds = 3.0;
     worstBest = 2*bounds*sqrt(3)*tNodes + 1.0;    //maximum possible length + 1 (unrealistic that any path will even reach 50% of this)
     totalBest = 0;
@@ -226,7 +233,7 @@ void starsystems::updatePaths()
         break;
     }
 
-    if(alwaysExploit || ((iterations + 100)%100 >5-(float(iterations)/1000.0)*3)){
+    if(alwaysExploit || iterations < forgetOffset || ((iterations + forgetOffset)%forgetOffset >forgetLength)){
 
 
         for(int i = 0;i < tNodes; i++){
@@ -286,18 +293,11 @@ void starsystems::updatePaths()
         for(int i = 0;i < tNodes; i++){
             for(int j = i+1; j < tNodes; j++){
                 float thisDecay = (1-addRate);
-                if(paths[i][j].pOld > 1.0){
-                    //thisDecay *= (3/4) + 1/(4 * paths[i][j].pOld);
-                }
-
-                paths[i][j].pOld *= thisDecay;
-                //paths[i][j].pOld *= (1-addRate);
-
-
 
                 if(paths[i][j].pOld > 1){
-                    //paths[i][j].pOld *= pow(0.95, paths[i][j].pOld); //*= pow(0.90, paths[i][j].pOld);
+                    paths[i][j].pOld = 0.95*sqrt(paths[i][j].pOld); //*= pow(0.90, paths[i][j].pOld);
                 }
+                paths[i][j].pOld *= thisDecay;
             }
         }
     }

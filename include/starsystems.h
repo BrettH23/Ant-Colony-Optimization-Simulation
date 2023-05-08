@@ -81,13 +81,16 @@ class starsystems
         float pherAppRate;
         float decayMinimum;
 
-        bool myBonus = false;
-        bool rollOrigins = false;
-        bool alwaysExploit = true;
+        bool myBonus;
+        bool rollOrigins;
+        bool alwaysExploit;
         float bonusDecay;
         float bonusMultiplier;
 
         vec2order getOrder(int, int);
+
+        int forgetOffset;
+        int forgetLength;
 
         void genRandom(int, int);
         void walkAnts();
